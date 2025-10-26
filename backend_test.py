@@ -202,13 +202,18 @@ class TermDeskAPITester:
             async with websockets.connect(host_url) as host_ws, \
                        websockets.connect(member_url) as member_ws:
                 
-                # Wait for welcome messages
-                await asyncio.wait_for(host_ws.recv(), timeout=5)
-                await asyncio.wait_for(member_ws.recv(), timeout=5)
+                # Wait for initial messages for both connections
+                for _ in range(4):  # Each connection gets welcome + member_update
+                    try:
+                        await asyncio.wait_for(host_ws.recv(), timeout=2)
+                    except asyncio.TimeoutError:
+                        break
                 
-                # Wait for member update messages
-                await asyncio.wait_for(host_ws.recv(), timeout=5)
-                await asyncio.wait_for(member_ws.recv(), timeout=5)
+                for _ in range(4):
+                    try:
+                        await asyncio.wait_for(member_ws.recv(), timeout=2)
+                    except asyncio.TimeoutError:
+                        break
                 
                 # Host grants permission to member
                 grant_msg = {

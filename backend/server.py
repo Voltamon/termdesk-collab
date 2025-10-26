@@ -172,7 +172,7 @@ async def get_session(session_id: str):
     return session
 
 # WebSocket endpoint
-@app.websocket("/ws/{session_id}")
+@app.websocket("/api/ws/{session_id}")
 async def websocket_endpoint(websocket: WebSocket, session_id: str):
     # Get username and is_host from query params
     username = websocket.query_params.get("username", "Anonymous")

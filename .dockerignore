@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+frontend/node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Build files
+frontend/build/
+*.log
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test reports
+test_reports/
+
+# Misc
+*.md
+!README.md

@@ -113,16 +113,26 @@ class TermDeskAPITester:
             async with websockets.connect(ws_url) as websocket:
                 print("✅ WebSocket connected successfully")
                 
-                # Wait for welcome message
-                message = await asyncio.wait_for(websocket.recv(), timeout=5)
-                data = json.loads(message)
+                # Wait for messages (welcome and member_update)
+                welcome_received = False
+                for _ in range(3):  # Try to receive up to 3 messages
+                    try:
+                        message = await asyncio.wait_for(websocket.recv(), timeout=5)
+                        data = json.loads(message)
+                        
+                        if data.get('type') == 'welcome':
+                            print("✅ Received welcome message")
+                            welcome_received = True
+                        elif data.get('type') == 'member_update':
+                            print("✅ Received member update")
+                    except asyncio.TimeoutError:
+                        break
                 
-                if data.get('type') == 'welcome':
-                    print("✅ Received welcome message")
+                if welcome_received:
                     self.tests_passed += 1
                     return True
                 else:
-                    print(f"❌ Unexpected message type: {data.get('type')}")
+                    print("❌ Welcome message not received")
                     return False
                     
         except Exception as e:

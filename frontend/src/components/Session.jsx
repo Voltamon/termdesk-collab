@@ -29,7 +29,7 @@ const Session = () => {
   useEffect(() => {
     // Connect to WebSocket
     const websocket = new WebSocket(
-      `${WS_URL}/ws/${sessionId}?username=${username}&is_host=${isHost}`
+      `${WS_URL}/api/ws/${sessionId}?username=${username}&is_host=${isHost}`
     );
 
     websocket.onopen = () => {

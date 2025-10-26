@@ -110,7 +110,7 @@ class TermDeskAPITester:
             ws_url = f"{self.ws_url}/api/ws/{self.session_id}?username=test_user&is_host=true"
             print(f"Connecting to: {ws_url}")
             
-            async with websockets.connect(ws_url, timeout=10) as websocket:
+            async with websockets.connect(ws_url) as websocket:
                 print("✅ WebSocket connected successfully")
                 
                 # Wait for welcome message
@@ -141,7 +141,7 @@ class TermDeskAPITester:
         try:
             ws_url = f"{self.ws_url}/api/ws/{self.session_id}?username=test_host&is_host=true"
             
-            async with websockets.connect(ws_url, timeout=10) as websocket:
+            async with websockets.connect(ws_url) as websocket:
                 # Wait for welcome message
                 await asyncio.wait_for(websocket.recv(), timeout=5)
                 

@@ -152,8 +152,12 @@ class TermDeskAPITester:
             ws_url = f"{self.ws_url}/api/ws/{self.session_id}?username=test_host&is_host=true"
             
             async with websockets.connect(ws_url) as websocket:
-                # Wait for welcome message
-                await asyncio.wait_for(websocket.recv(), timeout=5)
+                # Wait for initial messages (welcome and member_update)
+                for _ in range(3):
+                    try:
+                        await asyncio.wait_for(websocket.recv(), timeout=2)
+                    except asyncio.TimeoutError:
+                        break
                 
                 # Send command execution request
                 command_msg = {

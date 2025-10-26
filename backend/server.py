@@ -156,6 +156,10 @@ class SessionCreate(BaseModel):
     host_username: str
 
 # API Routes
+@api_router.get("/")
+async def root():
+    return {"message": "TermDesk API"}
+
 @api_router.post("/sessions", response_model=Session)
 async def create_session(input: SessionCreate):
     session = Session(host_username=input.host_username)
